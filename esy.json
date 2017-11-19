@@ -1,6 +1,6 @@
 {
   "name": "@esy-ocaml/bs-platform",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "devDependencies": {
     "ocaml": "~4.2.3000"
   },
