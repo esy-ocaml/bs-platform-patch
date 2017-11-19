@@ -11,7 +11,7 @@ What this accomplishes:
 3. Enables relocatability of `bs-platform`.
 
 To use this to create another release:
-1. `./createRelease.sh`.
+1. `./createRelease.sh` (from Mac OSX)
 2. Verify the directory contents in current directory. This will be published to `npm`.
 2. `npm publish`.
 
