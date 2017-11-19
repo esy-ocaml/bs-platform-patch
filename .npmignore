@@ -9,6 +9,7 @@
 /*.cmti
 /*.annot
 
+.git/
 docs/
 site/
 .vscode/
