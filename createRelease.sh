@@ -5,11 +5,11 @@ RELEASE_FILE="bs-platform-2.0.0.tgz"
 BS_PLATFORM_URL="https://registry.npmjs.org/bs-platform/-/${RELEASE_FILE}"
 
 wget "$BS_PLATFORM_URL"
-SHA_SUM_CHECKED=`shasum ./bs-platform-2.0.0.tgz`
+SHA_SUM_CHECKED=`shasum $RELEASE_FILE`
 
-if [ "$SHA_SUM_CHECKED" != "$SHA_SUM" ]; then
+if [ "$SHA_SUM_CHECKED" != "$SHA_SUM  $RELEASE_FILE" ]; then
   echo "ERROR!!!"
-  echo "The shasum didn't check out: Expecting: $SHA_SUM but found: $SHA_SUM_CHECKED"
+  echo "The shasum didn't check out: Expecting: $SHA_SUM  $RELEASE_FILE but found: $SHA_SUM_CHECKED"
   echo "ERROR!!!"
   exit 1
 fi
