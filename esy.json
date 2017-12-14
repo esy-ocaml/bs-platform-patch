@@ -10,7 +10,7 @@
   "esy": {
     "build": [
       [ "node", "scripts/install.js" ],
-      [ "cp", "-r", "-f", "$cur__target_dir/*", "$cur__install" ]
+      [ "cp", "-r", "-f", "#{cur.target_dir / '*'}", "#{cur.install}" ]
     ],
     "buildsInSource": true
   },
