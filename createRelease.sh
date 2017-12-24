@@ -1,13 +1,47 @@
 #!/bin/bash
 
-SHA_SUM="17ee607fa829f67b8b920438ebca5ec1deab3276"
-RELEASE_FILE="bs-platform-2.0.0.tgz"
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+SOURCE="$(readlink "$SOURCE")"
+[[ $SOURCE != /* ]] && SOURCE="$SCRIPTDIR/$SOURCE"
+done
+SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+
+if [ -z "$1" ]; then
+  echo "You must supply an upstream version like this:"
+  echo "./createRelease.sh 2.0.0"
+  exit 1
+fi
+
+UPSTREAM_VERSION="$1"
+UPSTREAM_CHECKSUM_FILE="${SCRIPTDIR}/packageInfo/upstreamChecksums/${UPSTREAM_VERSION}.txt"
+VERSION_MAPPING_FILE="${SCRIPTDIR}/packageInfo/esy-ocaml-versionMapping/${UPSTREAM_VERSION}.upstream.txt"
+
+if [ -f "${UPSTREAM_CHECKSUM_FILE}" ]; then
+  true
+else
+  echo "No checksum located at: ${UPSTREAM_CHECKSUM_FILE}"
+  exit 1
+fi
+
+if [ -f "${VERSION_MAPPING_FILE}" ]; then
+  true
+else
+  echo "No version mapping file located at: ${VERSION_MAPPING_FILE}"
+  exit 1
+fi
+
+ESY_OCAML_VERSION=$(cat ${VERSION_MAPPING_FILE})
+SHA_SUM=$(cat "${UPSTREAM_CHECKSUM_FILE}")
+RELEASE_FILE="bs-platform-${UPSTREAM_VERSION}.tgz"
 BS_PLATFORM_URL="https://registry.npmjs.org/bs-platform/-/${RELEASE_FILE}"
 
 wget "$BS_PLATFORM_URL"
-SHA_SUM_CHECKED=`shasum $RELEASE_FILE`
+SHA_SUM_CHECKED=$(shasum $RELEASE_FILE)
 
-if [ "$SHA_SUM_CHECKED" != "$SHA_SUM  $RELEASE_FILE" ]; then
+if [ "$SHA_SUM_CHECKED" != "${SHA_SUM}  ${RELEASE_FILE}" ]; then
   echo "ERROR!!!"
   echo "The shasum didn't check out: Expecting: $SHA_SUM  $RELEASE_FILE but found: $SHA_SUM_CHECKED"
   echo "ERROR!!!"
@@ -17,10 +51,20 @@ fi
 # Extracts here, there will be a package/
 tar -xvf "$RELEASE_FILE"
 # These flags work on mac - not tested on linux.
+
+# We include both an esy.json and a package.json, and esy will only pay
+# attention to the esy.json. We just needed to make sure package.json had the
+# right version/name because that's the only thing npm pays attention to.
+sed -i '.bak' "s/_VERSION_/${ESY_OCAML_VERSION}/g" esy.json
 sed -i '.bak' 's/bs-platform/@esy-ocaml\/bs-platform/g' package/package.json
-mv ./package/* .
-rm -rf ./package/
+sed -i '.bak' "s/\"version\": \"${UPSTREAM_VERSION}\"/\"version\": \"${ESY_OCAML_VERSION}\"/g" package/package.json
+
+mv esy.json ./package
 rm -rf "$RELEASE_FILE"
 
 echo ""
-echo "Now, run npm publish"
+echo "Now, run:"
+echo ""
+echo "  cd package"
+echo "  npm publish"
+echo ""
