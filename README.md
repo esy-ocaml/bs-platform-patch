@@ -65,3 +65,15 @@ you go through the process.
 - Create a similar `bsbnative` example with `@opam` dependencies.
 - Consider checking in the `esy.json` into bs-platform to eliminate the need
   for this `@esy-ocaml/bs-platform` mirror entirely.
+
+
+#### Adding Patches To BSB:
+See `./packageInfo/upstreamPatches/2.0.0/jscomp/bin/bsb.ml.patch` for an
+example of the patch that is applied to each release.
+
+- Edit the `jscomp/bin/bsb.ml` file in the `package/` directory after creating
+  a release.
+- Get ahold of the original `jscomp/bin/bsb.ml` file from the upstream release.
+  It will be at location `pacakge/jscomp/bin/bsb.ml.orig`.
+- To update the patch that is created in future releases run
+  `diff package/jscomp/bin/bsb.ml.orig package/jscomp/bin/bsb.ml > ./upstreamPatches/2.0.0/jscomp/bin/bsb.ml.patch`.

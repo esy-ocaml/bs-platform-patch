@@ -8,7 +8,6 @@ SOURCE="$(readlink "$SOURCE")"
 done
 SCRIPTDIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-
 if [ -z "$1" ]; then
   echo "You must supply an upstream version like this:"
   echo "./createRelease.sh 2.0.0"
@@ -59,7 +58,13 @@ sed -i '.bak' "s/_VERSION_/${ESY_OCAML_VERSION}/g" esy.json
 sed -i '.bak' 's/bs-platform/@esy-ocaml\/bs-platform/g' package/package.json
 sed -i '.bak' "s/\"version\": \"${UPSTREAM_VERSION}\"/\"version\": \"${ESY_OCAML_VERSION}\"/g" package/package.json
 
-mv esy.json ./package
+mv package/jscomp/bin/bsb.ml package/jscomp/bin/bsb.ml.orig
+patch ./package/jscomp/bin/bsb.ml.orig -i "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/jscomp/bin/bsb.ml.patch" -o ./package/jscomp/bin/bsb.ml
+
+
+# Now we patch bsb.
+
+cp esy.json ./package
 rm -rf "$RELEASE_FILE"
 
 echo ""
