@@ -61,10 +61,18 @@ sed -i '.bak' "s/\"version\": \"${UPSTREAM_VERSION}\"/\"version\": \"${ESY_OCAML
 mv package/jscomp/bin/bsb.ml package/jscomp/bin/bsb.ml.orig
 patch ./package/jscomp/bin/bsb.ml.orig -i "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/jscomp/bin/bsb.ml.patch" -o ./package/jscomp/bin/bsb.ml
 
+# Remove the heavy docs and site directories
+rm -rf package/site/
+rm -rf package/docs/
+rm -rf package/vendor/ocaml/
+rm -rf package/jscomp/bin/*.win
 
 # Now we patch bsb.
 
 cp esy.json ./package
+
+# Restore the original esy.json
+cp esy.json.bak ./esy.json
 rm -rf "$RELEASE_FILE"
 
 echo ""
