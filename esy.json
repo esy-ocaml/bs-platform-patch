@@ -7,12 +7,27 @@
   "peerDependencies": {
     "ocaml": " >= 4.2.3"
   },
+
   "esy": {
     "build": [
       [ "node", "scripts/install.js" ],
       [ "cp", "-r", "-f", "#{self.target_dir / '*'}", "#{self.install}" ]
     ],
-    "buildsInSource": true
+    "buildsInSource": true,
+    "exportedEnv": {
+      "bs_custom_resolution": {
+        "val": "true",
+        "scope": "global"
+      },
+      "bs_platform__install": {
+        "val": "#{self.install}",
+        "scope": "global"
+      },
+      "PATH": {
+        "val": "#{@esy-ocaml/bs-platform.lib : $PATH}",
+        "scope": "global"
+      }
+    }
   },
   "description": "bucklescript compiler for use in esy, ocaml standard libary by bucklescript and its required runtime support",
   "repository": {
