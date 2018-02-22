@@ -7,11 +7,17 @@
   "peerDependencies": {
     "ocaml": " >= 4.2.3"
   },
-
   "esy": {
     "build": [
       [ "node", "scripts/install.js" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / ''}", "#{self.install}" ]
+      [ "cp", "-r", "-f", "#{self.target_dir / 'bin'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'doc'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'etc'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'lib'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'man'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'sbin'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'share'}", "#{self.install}" ],
+      [ "cp", "-r", "-f", "#{self.target_dir / 'stublibs'}", "#{self.install}" ]
     ],
     "buildsInSource": true,
     "exportedEnv": {
