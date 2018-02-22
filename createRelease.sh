@@ -49,12 +49,6 @@ sed -i '.bak' "s/_VERSION_/${ESY_OCAML_VERSION}/g" esy.json
 sed -i '.bak' 's/bs-platform/@esy-ocaml\/bs-platform/g' package/package.json
 sed -i '.bak' "s/\"version\": \"${UPSTREAM_VERSION}\"/\"version\": \"${ESY_OCAML_VERSION}\"/g" package/package.json
 
-if [ "${UPSTREAM_VERSION}" == "2.0.0" ]; then
-  echo "Backing up jscomp/bin/bsb.ml"
-  mv package/jscomp/bin/bsb.ml package/jscomp/bin/bsb.ml.orig
-  patch ./package/jscomp/bin/bsb.ml.orig -i "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/jscomp/bin/bsb.ml.patch" -o ./package/jscomp/bin/bsb.ml
-fi
-
 if [ "${UPSTREAM_VERSION}" == "2.1.0" ]; then
   echo "Removing executable files in release:"
  
@@ -82,9 +76,6 @@ if [ "${UPSTREAM_VERSION}" == "2.1.0" ]; then
   rm package/lib/reactjs_jsx_ppx_2.win
   rm package/lib/refmt.win
   rm package/lib/refmt3.win
-
-  mv ./package/lib/bsb.ml ./package/lib/bsb.ml.orig
-  patch ./package/lib/bsb.ml.orig -i "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/lib/bsb.ml.patch" -o ./package/lib/bsb.ml
 fi
 
 if [ "${UPSTREAM_VERSION}" == "2.2.1" ]; then
@@ -116,6 +107,11 @@ if [ "${UPSTREAM_VERSION}" == "2.2.1" ]; then
   rm package/lib/refmt3.win
 fi
 
+if [ -f "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/lib/bsb.ml.patch"  ]; then
+  echo "Backing up jscomp/bin/bsb.ml and applying patch"
+  mv ./package/lib/bsb.ml ./package/lib/bsb.ml.orig
+  patch ./package/lib/bsb.ml.orig -i "./packageInfo/upstreamPatches/${UPSTREAM_VERSION}/lib/bsb.ml.patch" -o ./package/lib/bsb.ml
+fi
 
 # Remove the heavy docs and site directories
 rm -rf package/site/
