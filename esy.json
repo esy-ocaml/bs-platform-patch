@@ -11,7 +11,7 @@
   "esy": {
     "build": [
       [ "node", "scripts/install.js" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / '*'}", "#{self.install}" ]
+      [ "cp", "-r", "-f", "#{self.target_dir / ''}", "#{self.install}" ]
     ],
     "buildsInSource": true,
     "exportedEnv": {
