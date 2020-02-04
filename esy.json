@@ -34,7 +34,7 @@
         "scope": "global"
       },
       "PATH": {
-        "val": "#{@esy-ocaml/bs-platform.lib : $PATH}",
+        "val": "#{self.lib : $PATH}",
         "scope": "global"
       }
     }
