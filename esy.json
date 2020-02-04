@@ -9,14 +9,19 @@
   },
   "esy": {
     "build": [
-      [ "node", "scripts/install.js" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'bsconfig.json'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'esy.json'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'jscomp'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'lib'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / '.merlin'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'scripts'}", "#{self.install}" ],
-      [ "cp", "-r", "-f", "#{self.target_dir / 'vendor'}", "#{self.install}" ]
+      ["node", "scripts/install.js"],
+      [
+        "cp",
+        "-r",
+        "-f",
+        "#{self.target_dir / 'bsconfig.json'}",
+        "#{self.install}"
+      ],
+      ["cp", "-r", "-f", "#{self.target_dir / 'esy.json'}", "#{self.install}"],
+      ["cp", "-r", "-f", "#{self.target_dir / 'jscomp'}", "#{self.install}"],
+      ["cp", "-r", "-f", "#{self.target_dir / 'lib'}", "#{self.install}"],
+      ["cp", "-r", "-f", "#{self.target_dir / 'scripts'}", "#{self.install}"],
+      ["cp", "-r", "-f", "#{self.target_dir / 'vendor'}", "#{self.install}"]
     ],
     "buildsInSource": true,
     "exportedEnv": {
@@ -39,12 +44,7 @@
     "type": "git",
     "url": "git+https://github.com/bucklescript/bucklescript.git"
   },
-  "keywords": [
-    "ocaml",
-    "bucklescript",
-    "stdlib",
-    "functional programming"
-  ],
+  "keywords": ["ocaml", "bucklescript", "stdlib", "functional programming"],
   "author": {
     "name": "Hongbo Zhang"
   },
@@ -60,4 +60,3 @@
   },
   "homepage": "https://github.com/bucklescript/bucklescript#readme"
 }
-
